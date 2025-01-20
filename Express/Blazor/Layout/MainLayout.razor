@@ -1,0 +1,17 @@
+﻿@inherits LayoutComponentBase
+@using Blazor.Components;
+
+<div class="main-layout">
+    <header>
+        <Header/> 
+    </header>
+
+    <!-- Contenido Principal -->
+    <main>
+        @Body <!-- Este es el marcador de posición donde se cargan las páginas -->
+    </main>
+
+    <foooter>
+        <Footer/>
+    </foooter>
+</div>

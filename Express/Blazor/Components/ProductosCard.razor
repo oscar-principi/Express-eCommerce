@@ -1,0 +1,38 @@
+﻿@using Shared.DTOs
+
+<div class="card product-card shadow-sm mb-4">
+    <!-- Mostrar las imágenes del producto en un carousel -->
+    @if (Productos.ImagenesProductos != null && Productos.ImagenesProductos.Any())
+    {
+        <div id="carouselProductImages_@Productos.Id" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (var (imagen, index) in Productos.ImagenesProductos.Select((value, i) => (value, i)))
+                {
+                    <div class="carousel-item @((index == 0) ? "active" : "")">
+                        <img src="@imagen.UrlImagen" alt="@Productos.Nombre" class="d-block w-100 img-thumbnail" />
+                    </div>
+                }
+            </div>
+            <!-- Controles de navegación -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductImages_@Productos.Id" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselProductImages_@Productos.Id" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    }
+
+    <div class="card-body">
+        <h5 class="card-title">@Productos.Nombre</h5>
+        <p class="card-text">@Productos.Descripcion</p>
+        <p class="price h4">$@Productos.Precio</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ProductoDTO Productos { get; set; } = default!;
+}

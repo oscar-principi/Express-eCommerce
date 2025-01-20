@@ -1,0 +1,90 @@
+﻿@page "/"
+@using Blazor.Components
+@using Shared.DTOs
+@using Shared
+@layout MainLayout
+@inject HttpClient Http
+
+<PageTitle>Express eCommerce</PageTitle>
+
+
+<!-- Lista de productos -->
+<div class="container mt-4">
+    @if (productos.Any())
+    {
+        <h2>Productos Disponibles</h2>
+
+        <!-- Productos paginados -->
+        <div class="product-list">
+            @foreach (var producto in productosToShow)
+            {
+                <ProductosCard Productos="producto" />
+            }
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination">
+            <button class="btn btn-secondary" @onclick="PreviousPage" disabled="@(!CanGoToPreviousPage)">Anterior</button>
+            <span>Página @currentPage de @totalPages</span>
+            <button class="btn btn-secondary" @onclick="NextPage" disabled="@(!CanGoToNextPage)">Siguiente</button>
+        </div>
+    }
+    else
+    {
+        <p>No hay productos disponibles</p>
+    }
+</div>
+
+@code {
+    private int currentPage = 1;
+    private int pageSize = 10;
+    private List<ProductoDTO> productos = new List<ProductoDTO>();
+    private List<ProductoDTO> productosToShow = new List<ProductoDTO>();
+
+    private bool CanGoToPreviousPage => currentPage > 1;
+    private bool CanGoToNextPage => currentPage < totalPages;
+
+    private int totalPages => (int)Math.Ceiling((double)productos.Count / pageSize);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        try
+        {
+            var resultado = await Http.GetFromJsonAsync<List<ProductoDTO>>("https://localhost:7205/api/Gateway/productos");
+            productos = resultado ?? new List<ProductoDTO>();
+            UpdateProductsToShow();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cargando productos: {ex.Message}");
+        }
+    }
+
+    private void UpdateProductsToShow()
+    {
+        productosToShow = productos.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+    }
+
+    private void PreviousPage()
+    {
+        if (CanGoToPreviousPage)
+        {
+            currentPage--;
+            UpdateProductsToShow();
+        }
+    }
+
+    private void NextPage()
+    {
+        if (CanGoToNextPage)
+        {
+            currentPage++;
+            UpdateProductsToShow();
+        }
+    }
+}

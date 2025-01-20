@@ -1,0 +1,6 @@
+@GetawayAPI_HostAddress = http://localhost:5121
+
+GET {{GetawayAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

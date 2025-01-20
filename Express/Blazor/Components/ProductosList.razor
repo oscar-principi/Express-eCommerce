@@ -1,0 +1,33 @@
+﻿@using Shared.DTOs
+
+<div class="container my-4">
+    <div class="row">
+        @if (Productos != null && Productos.Any())
+        {
+            @foreach (var producto in Productos)
+            {
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <ProductosCard Productos="producto" />
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p class="text-center text-muted">No hay productos disponibles</p>
+                <div class="loading-progress">
+                    <circle cx="50%" cy="50%" r="40%"></circle>
+                    <circle cx="50%" cy="50%" r="40%" style="--blazor-load-percentage: 50;"></circle>
+                </div>
+                <div class="loading-progress-text">Loading...</div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public List<ProductoDTO> Productos { get; set; } = new List<ProductoDTO>();
+}
+
+

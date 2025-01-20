@@ -1,0 +1,44 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">Express</a>
+
+        <!-- Botón de menú para pantallas pequeñas -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Opciones de navegación -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" @onclick="NavigateHome">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" @onclick="NavigateProducts">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" @onclick="NavigateAboutUs">Nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" @onclick="NavigateContact">Contacto</a>
+                </li>
+            </ul>
+
+            <!-- Botones de acción -->
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar productos" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+            <button class="btn btn-primary ms-3" @onclick="NavigateCart">Carrito</button>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private void NavigateHome() => Console.WriteLine("Ir a Inicio");
+    private void NavigateProducts() => Console.WriteLine("Ir a Productos");
+    private void NavigateAboutUs() => Console.WriteLine("Ir a Nosotros");
+    private void NavigateContact() => Console.WriteLine("Ir a Contacto");
+    private void NavigateCart() => Console.WriteLine("Ir al Carrito");
+}
