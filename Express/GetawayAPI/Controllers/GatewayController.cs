@@ -1,6 +1,4 @@
-﻿// GatewayAPI/Controllers/GatewayController.cs
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shared.Interfaces;
 using Shared.DTOs;
 

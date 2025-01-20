@@ -1,3 +1,5 @@
+
+                                                                    /*GENERAL*/
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -113,6 +115,8 @@ code {
     text-align: start;
 }
 
+
+
                                                           /*MAINLAYOUT*/
 
 .main-layout {
@@ -184,7 +188,7 @@ footer {
 .card-body {
     padding: 1rem;
 }
-
+                                                                
 
                                                         
                                                         
