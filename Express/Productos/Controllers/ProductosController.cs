@@ -35,13 +35,18 @@ namespace ProductosAPI.Controllers
             });
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductoById(int id)
+        [HttpGet("{nombre}")]
+        public async Task<IActionResult> GetProductosByNombre(string nombre)
         {
-            var producto = await _productosServices.GetProductoByIdAsync(id);
-            if (producto == null)
-                return NotFound($"No se encontró un producto con el ID {id}");
-            return Ok(producto);
+            var productos = await _productosServices.GetProductosByNombreAsync(nombre);
+            var productosDTO = _mapper.Map<List<ProductoDTO>>(productos);
+
+            return new JsonResult(productosDTO, new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+                MaxDepth = 16
+            });
         }
 
         [HttpPost]
@@ -51,26 +56,26 @@ namespace ProductosAPI.Controllers
                 return BadRequest(ModelState);
 
             await _productosServices.AddProductoAsync(producto);
-            return CreatedAtAction(nameof(GetProductoById), new { id = producto.Id }, producto);
+            return CreatedAtAction(nameof(GetProductosByNombre), new { nombre = producto.Nombre }, producto);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProducto(int id, [FromBody] Producto producto)
+        [HttpPut("{nombre}")]
+        public async Task<IActionResult> UpdateProducto(string nombre, [FromBody] Producto producto)
         {
-            if (id != producto.Id)
-                return BadRequest("El ID del producto no coincide.");
+            if (nombre != producto.Nombre)
+                return BadRequest("El nombre del producto no coincide.");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _productosServices.UpdateProductoAsync(producto);
+            await _productosServices.UpdateProductoAsync(nombre, producto);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProducto(int id)
+        [HttpDelete("{nombre}")]
+        public async Task<IActionResult> DeleteProducto(string nombre)
         {
-            await _productosServices.DeleteProductoAsync(id);
+            await _productosServices.DeleteProductoAsync(nombre);
             return NoContent();
         }
 

@@ -22,13 +22,13 @@ namespace GatewayAPI.Controllers
             return Ok(productos);
         }
 
-        [HttpGet("productos/{id}")]
-        public async Task<IActionResult> GetProductoById(int id)
+        [HttpGet("productos/{nombre}")]
+        public async Task<IActionResult> GetProductosByNombre(string nombre)
         {
-            var producto = await _gatewayService.GetProductoByIdAsync(id);
-            if (producto == null)
-                return NotFound($"No se encontró un producto con el ID {id}");
-            return Ok(producto);
+            var productos = await _gatewayService.GetProductosByNombreAsync(nombre);
+            if (productos == null || !productos.Any())
+                return NotFound($"No se encontraron productos con el nombre {nombre}");
+            return Ok(productos);
         }
 
         [HttpPost("productos")]
@@ -38,26 +38,26 @@ namespace GatewayAPI.Controllers
                 return BadRequest(ModelState);
 
             await _gatewayService.AddProductoAsync(producto);
-            return CreatedAtAction(nameof(GetProductoById), new { id = producto.Id }, producto);
+            return CreatedAtAction(nameof(GetProductosByNombre), new { nombre = producto.Nombre }, producto);
         }
 
-        [HttpPut("productos/{id}")]
-        public async Task<IActionResult> UpdateProducto(int id, [FromBody] ProductoDTO producto)
+        [HttpPut("productos/{nombre}")]
+        public async Task<IActionResult> UpdateProducto(string nombre, [FromBody] ProductoDTO producto)
         {
-            if (id != producto.Id)
-                return BadRequest("El ID del producto no coincide.");
+            if (nombre != producto.Nombre)
+                return BadRequest("El nombre del producto no coincide.");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _gatewayService.UpdateProductoAsync(producto);
+            await _gatewayService.UpdateProductoAsync(nombre, producto);
             return NoContent();
         }
 
-        [HttpDelete("productos/{id}")]
-        public async Task<IActionResult> DeleteProducto(int id)
+        [HttpDelete("productos/{nombre}")]
+        public async Task<IActionResult> DeleteProducto(string nombre)
         {
-            await _gatewayService.DeleteProductoAsync(id);
+            await _gatewayService.DeleteProductoAsync(nombre);
             return NoContent();
         }
 

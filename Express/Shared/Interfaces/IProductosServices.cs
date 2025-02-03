@@ -5,10 +5,10 @@ namespace Shared.Interfaces
     public interface IProductosServices
     {
         Task<IEnumerable<Producto>> GetProductosAsync();
-        Task<Producto?> GetProductoByIdAsync(int id);
+        Task<List<Producto>> GetProductosByNombreAsync(string nombre);
         Task AddProductoAsync(Producto producto);
-        Task UpdateProductoAsync(Producto producto);
-        Task DeleteProductoAsync(int id);
+        Task UpdateProductoAsync(string nombre, Producto producto);
+        Task DeleteProductoAsync(string nombre);
         Task<IEnumerable<ImagenesProducto>> GetImagenesByProductoIdAsync(int productoId);
         Task AddImagenAsync(ImagenesProducto imagen);
     }

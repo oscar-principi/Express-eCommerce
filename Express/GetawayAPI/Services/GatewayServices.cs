@@ -27,10 +27,10 @@ namespace GatewayAPI.Services
             return response ?? new List<ProductoDTO>();
         }
 
-        public async Task<ProductoDTO> GetProductoByIdAsync(int id)
+        public async Task<List<ProductoDTO>> GetProductosByNombreAsync(string nombre)
         {
-            var response = await _httpClient.GetFromJsonAsync<ProductoDTO>($"{_baseUrl}productos/{id}");
-            return response ?? new ProductoDTO();
+            var response = await _httpClient.GetFromJsonAsync<List<ProductoDTO>>($"{_baseUrl}productos/{nombre}");
+            return response ?? new List<ProductoDTO>();
         }
 
         public async Task AddProductoAsync(ProductoDTO producto)
@@ -39,15 +39,15 @@ namespace GatewayAPI.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task UpdateProductoAsync(ProductoDTO producto)
+        public async Task UpdateProductoAsync(string nombre, ProductoDTO producto)
         {
-            var response = await _httpClient.PutAsJsonAsync($"{_baseUrl}productos/{producto.Id}", producto);
+            var response = await _httpClient.PutAsJsonAsync($"{_baseUrl}productos/{nombre}", producto);
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task DeleteProductoAsync(int id)
+        public async Task DeleteProductoAsync(string nombre)
         {
-            var response = await _httpClient.DeleteAsync($"{_baseUrl}productos/{id}");
+            var response = await _httpClient.DeleteAsync($"{_baseUrl}productos/{nombre}");
             response.EnsureSuccessStatusCode();
         }
 

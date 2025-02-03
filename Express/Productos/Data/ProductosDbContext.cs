@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using ProductosAPI;
 
 namespace ProductosAPI.Data;
 
@@ -13,6 +16,8 @@ public partial class ProductosDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Categoria> Categorias { get; set; }
+
     public virtual DbSet<ImagenesProducto> ImagenesProductos { get; set; }
 
     public virtual DbSet<Producto> Productos { get; set; }
@@ -22,6 +27,13 @@ public partial class ProductosDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Categoria>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_ID_Categoria");
+
+            entity.Property(e => e.NombreCategoria).HasMaxLength(255);
+        });
+
         modelBuilder.Entity<ImagenesProducto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_ID_Imagen");
@@ -31,7 +43,6 @@ public partial class ProductosDbContext : DbContext
 
             entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.ImagenesProductos)
                 .HasForeignKey(d => d.IdProducto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Imagenes_Productos");
         });
 
@@ -42,6 +53,10 @@ public partial class ProductosDbContext : DbContext
             entity.Property(e => e.Descripcion).HasMaxLength(500);
             entity.Property(e => e.Nombre).HasMaxLength(100);
             entity.Property(e => e.Precio).HasColumnType("decimal(18, 2)");
+
+            entity.HasOne(d => d.CategoriaNavigation).WithMany(p => p.Productos)
+                .HasForeignKey(d => d.Categoria)
+                .HasConstraintName("FK_Producto_Categoria");
         });
 
         OnModelCreatingPartial(modelBuilder);

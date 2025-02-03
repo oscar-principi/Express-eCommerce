@@ -1,0 +1,3 @@
+dotnet ef dbcontext scaffold "Name=ConnectionStrings:ConnectionProductos" Microsoft.EntityFrameworkCore.SqlServer --output-dir "C:\Users\princ\OneDrive\Desktop\Express\Shared\Models" --context-dir "C:\Users\princ\OneDrive\Desktop\Express\ProductossAPI\Context" --context ProductosDbContext --forcé
+
+Scaffold-DbContext "Name=ConnectionStrings:ExpressDBProductos" Microsoft.EntityFrameworkCore.SqlServer -OutputDir C:\Users\princ\OneDrive\Desktop\Express-eCommerce\Express\Shared\Models\ -Context "ProductosDbContext" -ContextDir C:\Users\princ\OneDrive\Desktop\Express-eCommerce\Express\Productos\Data\ -Force
